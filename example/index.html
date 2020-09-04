@@ -1,0 +1,83 @@
+<body>
+NPMRDS API example
+<script>
+	// https://netflix.github.io/falcor/
+	/*
+			 switch (request.dataType) {
+	      case "travelTime":
+	        retriever = getTravelTimeData;
+	        break;
+	      case "hoursOfDelay":
+	        retriever = getHoursOfDelay;
+	        break;
+	      case "indices":
+	        retriever = getIndicesByResolution;
+	        break;
+	      case "indices-byDateRange":
+	        retriever = getIndicesByDateRange;
+	        break;
+	      case "transcom":
+	        retriever = getTranscomData;
+	        break;
+	      case "dataQuality":
+	        retriever = getDataQuality;
+	        break;
+	      case "experiential":
+	        retriever = getExperientialTravelTime;
+	        break;
+	      case "tmcAttribute":
+	        retriever = getTmcAttributes;
+	        break;
+	    	}
+    	*/
+    // const metadataRequest = [[
+	// 	"tmc",
+	// 	 ['120+06860','120P06860'],
+	// 	 'meta',
+	// 	 2018,
+	// 	 ['length', 'aadt', 'roadname']
+	// ]]
+
+	// "120+06860,120P06860|20190101|20190131|0|288|monday,tuesday,wednesday,thursday,friday|5-minutes|travel_time_all|travelTime|{}|ny"
+
+	let tmcs = ['120+04978','120P04977','120+04979','120P04978','120P04979','120+04980','120P04980','120+04981','120P04981','120+04982','120P04982','120+04983','120P04983','120+04984','120P04984','120+04985','120P04985','120+04986','120P04986','120+04987','120P04987','120+04988','120P04988','120+04989','120P04989','120+30763','120+04990','120P30763','120P04990','120P04991','120+04991','120N04990','120N04991','120-30763','120-04990','120N30763','120-04989','120N04989','120-04988','120N04988','120-04987','120N04987','120-04986','120N04986','120-04985','120N04985','120-04984','120N04984','120-04983','120N04983','120-04982','120N04982','120-04981','120N04981','120-04980','120N04980','120-04979','120N04979','120-04978','120N04978','120N04977','120-04977','120P05100','120+05101','120-05100','120N05100','120+05104','120P05103','120N05103','120-05103','120+05324','120P05324','120+05325','120P05325','120+05326','120-05329','120P05326','120N05330','120+05327','120N05329','120P05327','120+05328','120-05328','120N05328','120P05328','120-05327','120+05329','120N05327','120-05326','120P05329','120P05330','120+05330','120N05326','120-05325','120N05325','120-05324','120N05324','120-05323','120-05335','120N05335','120-05334','120N05334','120-05333','120N05333','120-05332','120N05332','120N05331','120-05331','120+05332','120P05331','120P05332','120+05333','120P05333','120+05334','120P05334','120+05335','120P05335','120-07085','120N07086','120N07085','120+07086','120P07085','120P07086','120+07085','120+07092','120P07091','120P07092','120N07092','120N07091','120-07091','120-27983','120N27983','120+13221','120N13221','120P13221','120-10850','120-10851','120+17121','120-15692','120P15696','120-15698','120N15699','120+15696','120P30762','120N15698','120+24585','120-15697','120P24585','120+15697','120N15697','120-24585','120P15697','120+15698','120N24585','120P15698','120-15696','120-30762','120P15699','120N30762','120N15696','120+15699','120P19382','120P19381','120+19382']
+
+
+	
+	let data = {
+		tmcs,
+		startdate: '20190101',
+		enddate: '20190131',
+		startEpoch: 84, //0 -288
+		endEpoch: 228,
+		dow: ['monday','tuesday','wednesday','thursday','friday'],
+		resolution: '5-minutes',
+		measure: 'travel_time_all',
+		dataType: 'hoursOfDelay',
+		overrides: '{}',
+		state: 'ny'
+	}
+
+	let requestString = Object.values(data).map(d => d.join ? d.join(',') : d).join('|')
+
+	const request = [[
+		"routes",
+		"data",
+		requestString	
+	]]
+
+	let reqPath = encodeURIComponent(JSON.stringify(request))
+	
+	console.time('get Data')
+	fetch(`https://graph.availabs.org/graph/?paths=${reqPath}&method=get`)
+		.then(r => r.json())
+		.then(d => {
+			let tmc = 120+06860
+			console.timeEnd('get Data')
+			console.log('data', Object.values(d.jsonGraph.routes.data)[0].value)
+			// use lodash get to parse returned data
+			// get(d, `jsonGraph.tmc[${tmc}].meta[2018].roadname`, ''))
+		})
+
+</script>
+</body>
