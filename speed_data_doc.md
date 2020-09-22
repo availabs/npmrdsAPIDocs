@@ -26,7 +26,7 @@ The overarching format for each line is show below.
         ]
     ],
     "tmcMeta": {
-    	/* One object for each unique tmc in TMCArray
+    	/* One object for each unique tmc in TMCArray */
     	"120N05846": {
             "meta": {
                 "2019": {
@@ -57,7 +57,11 @@ Each object has a possible of 288 entries for each tmc representing each 5 minut
     tmc: '120-05846', //tmc id
     resolution: 0, // epoch index [0 = 12:00am, 1 = 12:05am, 2 = 12:10am ... 287 = 11:55pm]
     value: 40.2380001068115, // travel time in seconds (use length from tmcMeta to calculate speed)
-    numEpochs: '10' /* number of epochs reporting, for incident data will always be 1 because there is only one possible instance of each 5 minute segment of the day. For avgWeekdaysSpeeds this can range from 1 to 261 and can give you one indication of data completeness and quality */
+    numEpochs: '10' /* 
+    	number of epochs reporting, for incident data will always be 1 because 
+    	there is only one possible instance of each 5 minute segment of the day. For avgWeekdaysSpeeds 
+    	this can range from 1 to 261 and can give you one indication of data completeness and quality 
+    */
   },
   {
     tmc: '120-05846',
