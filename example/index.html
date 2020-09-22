@@ -48,14 +48,37 @@ NPMRDS API example
 		tmcs,
 		startdate: '20190101',
 		enddate: '20190131',
-		startEpoch: 84, //0 -288
-		endEpoch: 228,
+		startEpoch: 0, //0 -288
+		endEpoch: 288,
 		dow: ['monday','tuesday','wednesday','thursday','friday'],
 		resolution: '5-minutes',
+		/* 
+			15-minute
+			hour
+			dow
+			date
+			month
+			year
+		*/
 		measure: 'travel_time_all',
+		/*
+			travel_time_cars
+			travel_time_trucks
+		
+		*/
 		dataType: 'hoursOfDelay',
-		overrides: '{}',
-		state: 'ny'
+		/*
+			speed
+			hoursOfDelay
+			travel_time
+			pti
+			tti
+			mi
+			aadt
+			length
+
+		*/
+		//overrides: '{}'
 	}
 
 	let requestString = Object.values(data).map(d => d.join ? d.join(',') : d).join('|')
@@ -66,7 +89,7 @@ NPMRDS API example
 		requestString	
 	]]
 
-	let reqPath = encodeURIComponent(JSON.stringify(request))
+	let reqPath = encodeURIComponent(JSON.stringify(request))minutes
 	
 	console.time('get Data')
 	fetch(`https://graph.availabs.org/graph/?paths=${reqPath}&method=get`)
